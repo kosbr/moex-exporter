@@ -62,11 +62,12 @@ public class MoexDataGrabber {
                 var idxOfLast = response.marketdata.columns.indexOf(LAST_PRICE_COLUMN);
                 var price = response.marketdata.data.get(0).get(idxOfLast);
                 var doublePrice = Double.parseDouble(price);
-                lastPrices.put(currencyConfig.code, doublePrice);
+                if (doublePrice > 0) {
+                    lastPrices.put(currencyConfig.code, doublePrice);
+                }
                 LOG.info(String.format("Currency value received: %s = %f", currencyConfig.code, doublePrice));
             } catch (Throwable e) {
                 LOG.error(e.getMessage(), e);
-                lastPrices.put(currencyConfig.code, null);
             }
         });
     }
